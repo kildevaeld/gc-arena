@@ -7,6 +7,8 @@ use std::sync::Arc;
 use crate::collect::Collect;
 use crate::context::CollectionContext;
 
+#[cfg(feature = "heapless")]
+use heapless::{Vec as HVec, ArrayLength};
 /// If a type will never hold `Gc` pointers, you can use this macro to provide a simple empty
 /// `Collect` implementation.
 #[macro_export]
@@ -343,3 +345,19 @@ impl_tuple! {A B C D E F G H I J K L M}
 impl_tuple! {A B C D E F G H I J K L M N}
 impl_tuple! {A B C D E F G H I J K L M N O}
 impl_tuple! {A B C D E F G H I J K L M N O P}
+
+
+#[cfg(feature = "heapless")]
+unsafe impl<T: Collect, N: ArrayLength<T>> Collect for HVec<T, N> {
+    #[inline]
+    fn needs_trace() -> bool {
+        T::needs_trace()
+    }
+
+    #[inline]
+    fn trace(&self, cc: CollectionContext) {
+        for t in self {
+            t.trace(cc)
+        }
+    }
+}
