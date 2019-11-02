@@ -11,3 +11,16 @@ unsafe impl<T: 'static> Collect for StaticCollect<T> {
         false
     }
 }
+
+
+impl<T: Clone> Clone for StaticCollect<T> {
+    fn clone(&self) -> StaticCollect<T> {
+        StaticCollect(self.0.clone())
+    } 
+}
+
+impl<T: PartialEq> PartialEq for StaticCollect<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.0.eq(&other.0)
+    } 
+}
