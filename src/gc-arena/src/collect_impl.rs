@@ -365,7 +365,7 @@ unsafe impl<T: Collect, N: ArrayLength<T>> Collect for HVec<T, N> {
 }
 
 #[cfg(feature = "smallvec")]
-unsafe impl<T: Collect, N: Array> Collect for SmallVec<N> {
+unsafe impl<T: Collect, N: Array<Item = T>> Collect for SmallVec<N> {
     #[inline]
     fn needs_trace() -> bool {
         T::needs_trace()
