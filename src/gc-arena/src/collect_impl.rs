@@ -43,6 +43,7 @@ macro_rules! static_collect {
     };
 }
 
+static_collect!(str);
 static_collect!(bool);
 static_collect!(u8);
 static_collect!(u16);
